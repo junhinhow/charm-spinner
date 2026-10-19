@@ -1,10 +1,10 @@
 # charm-spinner
 
-Colecao de 30+ animacoes de spinner para terminal em Go, construido sobre [Lip Gloss](https://github.com/charmbracelet/lipgloss).
+Coleção de mais de 40 animações de spinner para terminal em Go, construído sobre [Lip Gloss](https://github.com/charmbracelet/lipgloss).
 
 > **[Read in English](README.md)**
 
-## Instalacao
+## Instalação
 
 ```bash
 go get github.com/junhinhow/charm-spinner@latest
@@ -32,11 +32,60 @@ func main() {
 }
 ```
 
-## Spinners Disponiveis
+`Render` percorre os frames automaticamente: qualquer índice é válido e índices
+negativos contam a partir do fim do ciclo. Um spinner sem frames devolve uma
+string vazia em vez de entrar em panic.
 
-Mais de 30 spinners predefinidos: Dots, Line, Star, Moon, Earth, Clock, Bounce, Bar, Circle, Square, Triangle, Arrow, Pulse, Flip, Grow, Layer, Toggle, Balloon, Noise, Fading, Christmas, Monkey, Hearts, Weather, Soccer, Matrix, DNA, Orbit, Rocket, Fire.
+## Spinners Disponíveis
 
-Use `spinner.All()` para obter um mapa com todos os spinners.
+| Nome | Prévia |
+|------|--------|
+| Dots | `⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏` |
+| Line | `- \ \| /` |
+| Star | `✶ ✸ ✹ ✺ ✹ ✷` |
+| Moon | `🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘` |
+| Earth | `🌍 🌎 🌏` |
+| Clock | `🕐 🕑 🕒 ... 🕛` |
+| Bounce | `⠁ ⠂ ⠄ ⠂` |
+| Bar | `▏ ▎ ▍ ▌ ▋ ▊ ▉ █` |
+| Circle | `◐ ◓ ◑ ◒` |
+| Square | `▖ ▘ ▝ ▗` |
+| Triangle | `◢ ◣ ◤ ◥` |
+| Arrow | `← ↖ ↑ ↗ → ↘ ↓ ↙` |
+| Pulse | `█ ▓ ▒ ░` |
+| Flip | `_ - ` ` ' ´` |
+| Grow | `▁ ▂ ▃ ▄ ▅ ▆ ▇ █` |
+| Layer | `─ ━ ═ ━` |
+| Toggle | `⊶ ⊷` |
+| Balloon | `. o O ° O o .` |
+| Noise | `▓ ▒ ░ ▒` |
+| Fading | `░ ▒ ▓ █ ▓ ▒ ░` |
+| Christmas | `🎄 🎅 ⛄ 🎁 🔔 ⭐` |
+| Monkey | `🙈 🙉 🙊` |
+| Hearts | `💛 💙 💜 💚 ❤️ 🧡` |
+| Weather | `☀️ 🌤️ ⛅ 🌥️ ☁️ 🌧️ ⛈️` |
+| Soccer | `⚽ 🥅 👟 💨` |
+| Matrix | `ᚠ ᚡ ᚢ ᚣ ᚤ ᚥ` |
+| DNA | `╔═╗ ╚═╝ ═══` |
+| Orbit | `◜ ◝ ◞ ◟` |
+| Rocket | `🚀 💨 ✨ 🌟` |
+| Fire | `🔥 🔥 💥 ✨` |
+| Ellipsis | `. .. ...` |
+| Rectangle | `▛ ▜ ▙ ▟` |
+| Diamond | `◆ ◇` |
+| Hexagon | `⬢ ⬡` |
+| BouncingBar | `[    ] [=   ] [==  ] [=== ]` |
+| Digits | `0 1 2 3 4 5 6 7 8 9` |
+| Quotes | `' " ❞ ❟` |
+| Cat | `😺 😸 😹 😻 😼 😽` |
+| Money | `💰 💵 💴 💶` |
+| Beach | `🏖️ 🌴 🌊 ☀️` |
+| Music | `♪ ♫ ♬` |
+| Target | `◎ ◉ ⊙ ◉` |
+
+Use `spinner.All()` para obter um mapa com todos os spinners, `spinner.Names()`
+para obter os nomes em ordem alfabética e `spinner.Clone()` para obter uma
+cópia independente do mapa.
 
 ## Spinners Customizados
 
@@ -47,6 +96,33 @@ custom := spinner.Spinner{
 }
 ```
 
-## Licenca
+## Estilos
+
+Cada spinner carrega o próprio `lipgloss.Style`. Quando o estilo não é
+definido, vale o estilo padrão do pacote:
+
+```go
+import "charm.land/lipgloss/v2"
+
+custom := spinner.Spinner{
+    Frames:   []string{"🐱", "🐶", "🐭"},
+    Interval: 200 * time.Millisecond,
+    Style:    lipgloss.NewStyle().Bold(true),
+}
+```
+
+O estilo padrão do pacote pode ser trocado a qualquer momento -- inclusive
+enquanto outras goroutines renderizam -- com `SetDefaultStyle`:
+
+```go
+spinner.SetDefaultStyle(lipgloss.NewStyle().Foreground(lipgloss.Color("205")))
+```
+
+> A variável exportada `spinner.Style` é apenas o estilo padrão *inicial*: ela
+> é copiada para o pacote durante a inicialização. Atribuir a ela diretamente
+> enquanto outro goroutine renderiza é uma corrida de dados -- use
+> `SetDefaultStyle`.
+
+## Licença
 
 [MIT](LICENSE)
